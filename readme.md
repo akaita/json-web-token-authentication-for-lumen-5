@@ -1,21 +1,77 @@
-# Lumen PHP Framework
+# Example of JSON web token authentication for Lumen 5 using tymon/jwt-auth
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/lumen-framework/v/unstable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+This repository was created as a support material for the instructional blog post http://www.akaita.com/post/json-web-token-authentication-for-lumen-5-tymon-jwt-auth 
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+Although I tried to keep this project as easy to understand as possible by itself, please refer to the blog post if you need any more explanation or have any suggestion.
 
-## Official Documentation
+## Features
 
-Documentation for the framework can be found on the [Lumen website](http://lumen.laravel.com/docs).
+  - Lumen 5.3
+  - jwt-auth 1.0.0-beta.1
+  - Authorization service using guards
+  - User and Post model
+  - Authorization policies for Post creation and update
+  - Configured to use SQLite database and file-based caching (used for JWT tokens)
+  - Ready to run
 
-## Security Vulnerabilities
+## API
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+### POST /auth/login
 
-## License
+Authentication (form data or JSON):
 
-The Lumen framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+  - *email*: user1@example.com, user2@example.com, user3@example.com)
+  - *password*: 1234
+
+Output (JSON):
+
+  - JWT token
+
+### GET /posts
+
+Authentication:
+
+  - *none*
+
+Output (JSON):
+
+  - List of all posts in database
+
+### POST /posts
+
+Authentication:
+
+  - *JWT token*
+
+Authorisation:
+
+  - All authenticated users allowed
+
+Input (JSON):
+
+  - *subject*: string
+  - *body*: string
+
+Output (JSON):
+
+  - Created post
+
+
+### PUT /posts/:post_id
+
+Authentication:
+
+  - *JWT token*
+
+Authorisation:
+
+  - Only owner of the post
+
+Input (JSON):
+
+  - *subject*: string
+  - *body*: string
+
+Output (JSON):
+
+  - Updated post
