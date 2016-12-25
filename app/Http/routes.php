@@ -16,3 +16,7 @@ $app->get('/', function () use ($app) {
 });
 
 $app->POST('/auth/login', 'AuthController@loginPost');
+
+$app->GET('/posts', 'PostController@index');
+$app->POST('/posts', 'PostController@create');
+$app->PUT('/posts/{postId}', 'PostController@update');
